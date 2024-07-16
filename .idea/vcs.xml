@@ -3,7 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/flask_app" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/my-app" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/react_app" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/react_app/my-app" vcs="Git" />
   </component>
 </project>
