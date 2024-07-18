@@ -1,0 +1,170 @@
+
+/* ProfilePage.css */
+
+.profile-page {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+header {
+    background-color: #ADD8E6;
+    color: white;
+    width: 100%;
+    padding: 15px; /* Slightly less padding */
+    text-align: center;
+    border-radius: 5px 5px 0 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.5em; /* Slightly smaller font size */
+}
+
+/* Profile Container Styles */
+.profile-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 30px; /* Reduced padding */
+    max-width: 900px; /* Wider max-width */
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+}
+
+/* Increase the width of the container */
+@media (min-width: 768px) {
+    .profile-container {
+        padding: 30px 50px; /* More horizontal padding */
+    }
+}
+
+@media (min-width: 1024px) {
+    .profile-container {
+        max-width: 1000px; /* Increase max-width for larger screens */
+        padding: 30px 70px; /* Even more horizontal padding */
+    }
+}
+
+/* Profile Info Styles */
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    font-size: 1em; /* Adjusted font size */
+    margin: 10px 0;
+}
+
+/* Adjusted error-message for more prominent display */
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 20px; /* Space between error message and content */
+}
+
+/* Button Styles */
+.btn {
+    width: auto;
+    padding: 15px;
+    font-size: 16px; /* Adjusted font size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #ADD8E6;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+/* Apply the same style to .btn-secondary and .btn-back classes */
+.btn-secondary, .btn-back {
+    background-color: #ADD8E6;
+    color: white;
+    border: none;
+    width: 120px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover, .btn-back:hover {
+    background-color: #5a6268;
+}
+
+/* Specific styles for Go Back Button */
+.btn-back {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: auto;
+    padding: 10px 15px; /* Adjusted padding */
+}
+
+/* Style for links in profile page */
+.profile-info a {
+    color: #ADD8E6;  /* Link color matching the button */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.profile-info a:hover {
+    text-decoration: underline;
+}
+
+/* Card Styles for Flights */
+.flight-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-bottom: 15px;
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Card Content */
+.flight-card p {
+    margin: 10px 0;
+    font-size: 1em;
+}
+
+/* Flight Price */
+.flight-card .price {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+/* Book Now Link */
+.flight-card a {
+    color: #ADD8E6;  /* Link color matching the button */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.flight-card a:hover {
+    text-decoration: underline;
+}
+
+/* Media query for larger screens */
+@media (min-width: 768px) {
+    .flight-card {
+        max-width: 500px; /* Increase max-width for larger screens */
+    }
+}
