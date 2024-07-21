@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-
 const API_URL = 'http://localhost:3002';
 
 
 export const checkAuthentication = async () => {
   try {
     console.log('Checking authentication status...');
-    const response = await axios.get(`${API_URL}/check_session`, { withCredentials: true });  // Use correct API URL
+    const response = await axios.get(`${API_URL}/check_session`, { withCredentials: true });
     console.log('Response from /check_session:', response.data);
     if (response.data.status === 'logged in') {
       console.log('User is logged in.');
@@ -26,7 +25,7 @@ export const checkAuthentication = async () => {
 export const logoutUser = async () => {
   try {
     console.log('Attempting to log out...');
-    await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });  // Use correct API URL
+    await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
     console.log('Logout successful.');
     return true;  // Logout successful
   } catch (error) {

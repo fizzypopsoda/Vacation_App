@@ -21,3 +21,10 @@ class SavedFlight(db.Model):
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     flight_info = db.Column(db.Text, nullable=False)
     saved_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+class SavedHotel(db.Model):
+    __tablename__ = 'saved_hotels'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    hotel_info = db.Column(db.Text, nullable=False)
+    saved_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)

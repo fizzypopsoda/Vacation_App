@@ -120,9 +120,12 @@ const SearchPage = () => {
     <div className="search-page">
       <header>
         <div className="header-content">
+          <Link to="/hotel">
+          <button className="btn btn-secondary">Search Hotels</button>
+          </Link>
           {isAuthenticated && (
-            // <Link to="/profile" className="profile-button">Profile</Link>
-            <button className="btn btn-secondary" onClick={() => navigate('/profile')}>Profile</button>
+
+            <button className="btn btn-secondary" onClick={() => navigate('/profile')}>My Profile</button>
           )}
           {isAuthenticated ? (
             <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
@@ -252,13 +255,13 @@ const SearchPage = () => {
             <p>Price: {link.totalPrice}</p>
             <p>
               <p>
-              <a href={link.purchaseLink} target="_blank" rel="noopener noreferrer" className="book-now-link">
+              <a href={link.url} target="_blank" rel="noopener noreferrer" className="book-now-link">
                 {link.totalPrice === 0
                   ? "Click 'Book Now' for details on price."
                   : " "}
               </a>
               </p>
-              <a href={link.purchaseLink} target="_blank" rel="noopener noreferrer">
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
                 Book now
               </a>
             </p>
