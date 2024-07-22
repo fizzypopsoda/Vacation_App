@@ -1,0 +1,46 @@
+/* HomePage.css */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url("/Users/channingbryant/Desktop/cs/SEOWork/Vacation_App/client/public/background.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  text-align: center; /* Ensure text is centered */
+}
+
+.welcome-message {
+  font-size: 4rem; /* Make the text bigger */
+  margin-bottom: 50px; /* Adjust margin to move text up */
+  margin-top: -50px; /* Adjust margin to move text up more */
+}
+
+.header-content {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.btn {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
