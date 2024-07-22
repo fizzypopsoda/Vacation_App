@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
 from uuid import uuid4
-import json
 from datetime import datetime
 
 db = SQLAlchemy()
@@ -14,6 +13,7 @@ class User(db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
     saved_flights = db.relationship('SavedFlight', backref='user', lazy=True)
+    saved_hotels = db.relationship('SavedHotel', backref='user', lazy=True)
 
 class SavedFlight(db.Model):
     __tablename__ = 'saved_flights'
