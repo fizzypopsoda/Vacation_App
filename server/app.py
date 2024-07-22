@@ -8,6 +8,7 @@ from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
 from main import search_flights
 from main import search_hotels
+from main import get_geoid
 import os
 
 load_dotenv()
@@ -157,6 +158,19 @@ def get_saved_flights():
 
     flights = [json.loads(flight.flight_info) for flight in user.saved_flights]  # Convert JSON strings back to dictionaries
     return jsonify({'flights': flights}), 200
+
+
+@app.route('/getGeoid', methods=['POST'])
+def get_geoid_route():
+    data = request.json
+    print("Received data:", data)
+    try:
+        city = data['query']
+        geo_id = get_geoid(city)
+        return jsonify({'geoId': geo_id}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 @app.route('/searchHotels', methods=['POST'])
 def search_hotels_route():

@@ -1,4 +1,3 @@
-// export default SearchHotelPage;
 import React, { useEffect, useState } from 'react';
 import './SearchHotelPage.css';
 import { Link } from 'react-router-dom';
@@ -8,17 +7,17 @@ import { useNavigate } from 'react-router-dom';
 const SearchHotelPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState({
-        pageNumber: 1,
-        currencyCode: "USD",
-        geoId: "",
-        checkIn: "",
-        checkOut: "",
-        adults: 1,
-        rooms: 1,
-        rating: 0
+    city: "",
+    checkIn: "",
+    checkOut: "",
+    adults: 1,
+    rooms: 1,
+    rating: 0
   });
   const [error, setError] = useState("");
   const [rawData, setHotels] = useState(null);
+  const [geoId, setGeoId] = useState("");
+
   useEffect(() => {
     const fetchAuthStatus = async () => {
       const userEmail = await checkAuthentication();
@@ -44,31 +43,27 @@ const SearchHotelPage = () => {
     }));
   };
 
-  const handleSaveHotel = async (flight) => {
-    if (isAuthenticated) {
-      try {
-        const response = await fetch("http://localhost:3002/saveHotels", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ flights: [flight] }),
-        });
+  const fetchGeoId = async (city) => {
+    try {
+      const response = await fetch("http://localhost:3002/getGeoid", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: city }),
+      });
 
-        if (response.ok) {
-          alert("Flight saved successfully!");
-        } else {
-          const errorData = await response.json();
-          console.error("Backend Error:", errorData);
-          setError(errorData.error || "Error saving flight");
-        }
-      } catch (err) {
-        console.error("Fetch Error:", err);
-        setError("Error saving flight");
+      if (response.ok) {
+        const data = await response.json();
+        setGeoId(data.geoId || "");
+      } else {
+        const errorData = await response.json();
+        console.error("Backend Error:", errorData);
+        setError(errorData.error || "Error fetching GeoID");
       }
-    } else {
-      alert("You need to be logged in to save flights.");
+    } catch (err) {
+      console.error("Fetch Error:", err);
+      setError("Error fetching GeoID");
     }
   };
 
@@ -84,13 +79,26 @@ const SearchHotelPage = () => {
       }
     }
 
+    // Fetch GeoID based on the city
+    await fetchGeoId(formData.city);
+
+    // Prepare form data for hotel search
+    const hotelSearchData = {
+      geoId,
+      checkIn: formData.checkIn,
+      checkOut: formData.checkOut,
+      adults: formData.adults,
+      rooms: formData.rooms,
+      rating: formData.rating
+    };
+
     try {
       const response = await fetch("http://localhost:3002/searchHotels", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(hotelSearchData),
       });
 
       if (response.ok) {
@@ -106,12 +114,14 @@ const SearchHotelPage = () => {
       setError("Error searching hotels");
     }
   };
+
   const navigate = useNavigate();
+
   return (
     <div className="hotel-search-page">
       <header>
         <Link to="/flight">
-                <button className="btn btn-secondary">Search flights</button>
+          <button className="btn btn-secondary">Search flights</button>
         </Link>
         <div className="header-content">
           {isAuthenticated && (
@@ -135,11 +145,11 @@ const SearchHotelPage = () => {
       <h2>Please enter information to search hotels</h2>
       <form onSubmit={handleHotelSubmit} className="form-container">
         <div>
-          <label> GeoID (ex. 34438):</label>
+          <label> City:</label>
           <input
             type="text"
-            name="geoId"
-            value={formData.geoId}
+            name="city"
+            value={formData.city}
             onChange={handleChange}
             required
           />
@@ -189,7 +199,6 @@ const SearchHotelPage = () => {
         <div>
           <label>Rating:</label>
           <select
-              type="number"
             name="rating"
             value={formData.rating}
             onChange={handleChange}
@@ -202,9 +211,8 @@ const SearchHotelPage = () => {
             <option value="4">4</option>
             <option value="5">5</option>
           </select>
-
         </div>
-        <button  className="btn btn-secondary" type="submit">Search Hotels</button>
+        <button className="btn btn-secondary" type="submit">Search Hotels</button>
       </form>
 
       {error && <p className="error">{error}</p>}
