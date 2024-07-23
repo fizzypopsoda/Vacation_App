@@ -94,7 +94,9 @@ const ProfilePage = () => {
         <div className="profile-page">
             <button onClick={handleGoBack} className="btn btn-back">Go Back</button>
             <header>
-                <h1>Profile Page</h1>
+                <div className = "header-conten"t>
+                <h1>My Profile</h1>
+                    </div>
             </header>
             <div className="profile-container">
                 {error ? (

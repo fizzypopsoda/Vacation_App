@@ -1,3 +1,123 @@
 /* src/pages/SearchHotelPage.css */
+/* src/pages/SearchPage.css */
 
-/*TODO*/
+.search-page {
+  text-align: center;
+  padding: 20px;
+  background-color: #f0f4f8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* General Button Styles */
+.btn {
+  width: auto;
+  padding: 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #ADD8E6;  /* Light Blue */
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+/* Secondary Button Styles */
+.btn-secondary {
+  background-color: #ADD8E6;  /* Light Blue */
+  color: white;
+  border: none;
+  width: 120px;  /* Fixed width for a shorter button */
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+/* Page Heading */
+.search-page h2 {
+  color: #333;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Form Container Styles */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Form Element Styles */
+.form-container div {
+  margin: 10px 0;
+  width: 100%;
+}
+
+/* Form Label Styles */
+.form-container label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Form Input & Select Styles */
+.form-container input,
+.form-container select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Hotel Results Grid Layout */
+.hotel-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;  /* Center the grid */
+}
+
+/* Hotel Card Styles */
+.hotel-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+/* Hotel Card Content */
+.hotel-card p {
+  margin: 5px 0;
+}
+
+/* Hotel Card Link */
+.hotel-card a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+/* Hotel Card Link Hover */
+.hotel-card a:hover {
+  text-decoration: underline;
+}
+
+/* Error Message Styles */
+.error {
+  color: red;
+  margin-top: 20px;
+}

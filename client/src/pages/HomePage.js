@@ -28,7 +28,7 @@ const HomePage = () => {
   return (
     <div className="home-page">
       <h1 className="welcome-message">Welcome to your Vacation Finder!</h1>
-      <div className="header-content">
+      <div className="header-content-homepage">
         <Link to="/hotel">
           <button className="btn btn-secondary">Search Hotels</button>
         </Link>

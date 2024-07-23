@@ -122,6 +122,7 @@ def get_geoid(city):
         json_data = response.json()
         if 'data' in json_data and len(json_data['data']) > 0:
             geoId = json_data['data'][0]['geoId']
+            print(geoId)
             return geoId
     else:
         raise Exception(f"Error: {response.status_code} - {response.text}")

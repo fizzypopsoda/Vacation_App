@@ -3,5 +3,4 @@ Flask-CORS
 Flask-Bcrypt
 Flask-SQLAlchemy
 python-dotenv
-
-
+requests

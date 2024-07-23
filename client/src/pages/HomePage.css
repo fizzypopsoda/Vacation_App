@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url("/Users/victo/OneDrive/Documents/Vacation_App/client/public/background.jpg");
+  background-image: url("../../public/background.jpg");
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -17,9 +17,14 @@
   font-size: 4rem; /* Make the text bigger */
   margin-bottom: 50px; /* Adjust margin to move text up */
   margin-top: -50px; /* Adjust margin to move text up more */
+  text-shadow:
+    -1px -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000;
 }
 
-.header-content {
+.header-content-homepage {
   background: rgba(0, 0, 0, 0.5);
   padding: 20px;
   border-radius: 10px;
@@ -27,6 +32,7 @@
 }
 
 .btn {
+
   margin: 10px;
   padding: 10px 20px;
   border: none;

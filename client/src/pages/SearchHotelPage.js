@@ -118,12 +118,12 @@ const SearchHotelPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="hotel-search-page">
+    <div className="search-page">
       <header>
+        <div className="header-content">
         <Link to="/flight">
           <button className="btn btn-secondary">Search flights</button>
         </Link>
-        <div className="header-content">
           {isAuthenticated && (
             <button className="btn btn-secondary" onClick={() => navigate('/profile')}>My Profile</button>
           )}
@@ -220,6 +220,7 @@ const SearchHotelPage = () => {
       <ul className="hotel-results">
         <h3>JSON Data:</h3>
         <pre>{JSON.stringify(rawData, null, 2)}</pre>
+
       </ul>
     </div>
   );
