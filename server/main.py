@@ -100,14 +100,39 @@ def search_hotels(geo_id, check_in, check_out, adults, rooms, rating):
     else:
         raise Exception(f"Error: {response.status_code} - {response.text}")
 
+def get_geoid(city):
+    url = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation"
+
+    query_params = {
+        "query": city
+    }
+    headers = {
+        'x-rapidapi-key': os.getenv('RAPIDAPI_KEY'),
+        'x-rapidapi-host': "tripadvisor16.p.rapidapi.com"
+    }
+
+    print("Making request to TripAdvisor API with the following parameters:")
+    print(query_params)
+    response = requests.get(url, headers=headers, params=query_params)
+    print("Response status code:", response.status_code)
+    print("Response text:", response.text)
+
+    # Checking if the request was successful
+    if response.status_code == 200:
+        json_data = response.json()
+        if 'data' in json_data and len(json_data['data']) > 0:
+            geoId = json_data['data'][0]['geoId']
+            return geoId
+    else:
+        raise Exception(f"Error: {response.status_code} - {response.text}")
 
 # Testing hotel search endpoint + json parsing
-# geo_id = "34438"
+# city = "Miami"
+# geo_id = get_geoid(city)
 # check_in = "2024-08-01"
 # check_out = "2024-08-11"
 # adults = 2
 # rooms = 1
 # rating = 4
-#
 # hotels = search_hotels(geo_id, check_in, check_out, adults, rooms, rating)
 # print(hotels)
