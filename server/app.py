@@ -201,7 +201,7 @@ def save_hotels():
     hotels = data.get('hotels', [])
 
     if not hotels:
-        return jsonify({'error': 'No flights to save'}), 400
+        return jsonify({'error': 'No hotels to save'}), 400
 
     user = User.query.get(user_id)
     if not user:
@@ -214,6 +214,7 @@ def save_hotels():
     db.session.commit()
 
     return jsonify({'message': 'Hotels saved successfully'}), 200
+
 @app.route('/savedHotels', methods=['GET'])
 def get_saved_hotels():
     user_id = session.get('user_id')
@@ -224,8 +225,9 @@ def get_saved_hotels():
     if not user:
         return jsonify({'error': 'User not found'}), 404
 
-    hotels = [json.loads(hotel.hotel_info) for hotel in user.saved_hotels]  # Convert JSON strings back to dicts
-    return jsonify({'flights': hotels}), 200
+    hotels = [json.loads(hotel.hotel_info) for hotel in user.saved_hotels]
+    return jsonify({'hotels': hotels}), 200
+
 
 if __name__ == '__main__':
-    app.run(port=3002)
+    app.run(port=3001)

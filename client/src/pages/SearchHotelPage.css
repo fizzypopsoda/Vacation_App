@@ -1,6 +1,11 @@
 /* src/pages/SearchHotelPage.css */
 /* src/pages/SearchPage.css */
 
+
+.center-text {
+  text-align: center;
+}
+
 .search-page {
   text-align: center;
   padding: 20px;
@@ -103,12 +108,6 @@
 /* Hotel Card Content */
 .hotel-card p {
   margin: 5px 0;
-}
-
-/* Hotel Card Link */
-.hotel-card a {
-  color: #1e90ff;
-  text-decoration: none;
 }
 
 /* Hotel Card Link Hover */

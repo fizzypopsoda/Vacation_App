@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './SearchHotelPage.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { checkAuthentication, logoutUser } from './auth';
-import { useNavigate } from 'react-router-dom';
 
 const SearchHotelPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,7 +17,7 @@ const SearchHotelPage = () => {
   const [hotels, setHotels] = useState([]);
   const [geoId, setGeoId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [searched, setSearched] = useState(false); // New state to track if search has been conducted
+  const [searched, setSearched] = useState(false);
 
   useEffect(() => {
     const fetchAuthStatus = async () => {
@@ -47,7 +46,7 @@ const SearchHotelPage = () => {
 
   const fetchGeoId = async (city) => {
     try {
-      const response = await fetch("http://localhost:3002/getGeoid", {
+      const response = await fetch("http://localhost:3001/getGeoid", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,9 +71,8 @@ const SearchHotelPage = () => {
   const handleHotelSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setSearched(true); // Set searched to true when a search is performed
+    setSearched(true);
 
-    // Checking if all fields are filled
     for (const key in formData) {
       if (formData[key] === "" || formData[key] === null || formData[key] === undefined) {
         setError("All fields are required.");
@@ -82,10 +80,8 @@ const SearchHotelPage = () => {
       }
     }
 
-    // Fetch GeoID based on the city
     await fetchGeoId(formData.city);
 
-    // Prepare form data for hotel search
     const hotelSearchData = {
       geoId,
       checkIn: formData.checkIn,
@@ -96,8 +92,8 @@ const SearchHotelPage = () => {
     };
 
     try {
-      setIsLoading(true);  // Start loading
-      const response = await fetch("http://localhost:3002/searchHotels", {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:3001/searchHotels", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +113,35 @@ const SearchHotelPage = () => {
       console.error("Fetch Error:", err);
       setError("Error searching hotels");
     } finally {
-      setIsLoading(false);  // Stop loading
+      setIsLoading(false);
+    }
+  };
+
+  const handleSaveHotel = async (hotel) => {
+    if (isAuthenticated) {
+      try {
+        const response = await fetch("http://localhost:3001/saveHotels", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ hotels: [hotel] }),
+        });
+
+        if (response.ok) {
+          alert("Hotel saved to your profile successfully!");
+        } else {
+          const errorData = await response.json();
+          console.error("Backend Error:", errorData);
+          setError(errorData.error || "Error saving hotel");
+        }
+      } catch (err) {
+        console.error("Fetch Error:", err);
+        setError("Error saving hotel");
+      }
+    } else {
+      alert("You need to be logged in to save hotels.");
     }
   };
 
@@ -128,7 +152,7 @@ const SearchHotelPage = () => {
       <header>
         <div className="header-content">
           <Link to="/flight">
-            <button className="btn btn-secondary">Search flights</button>
+            <button className="btn btn-secondary">Search Flights</button>
           </Link>
           {isAuthenticated && (
             <button className="btn btn-secondary" onClick={() => navigate('/profile')}>My Profile</button>
@@ -151,7 +175,7 @@ const SearchHotelPage = () => {
       <h2>Please enter information to search hotels</h2>
       <form onSubmit={handleHotelSubmit} className="form-container">
         <div>
-          <label> City:</label>
+          <label>City:</label>
           <input
             type="text"
             name="city"
@@ -161,7 +185,7 @@ const SearchHotelPage = () => {
           />
         </div>
         <div>
-          <label>Check in (YYYY-MM-DD):</label>
+          <label>Check-in (YYYY-MM-DD):</label>
           <input
             type="date"
             name="checkIn"
@@ -171,7 +195,7 @@ const SearchHotelPage = () => {
           />
         </div>
         <div>
-          <label>Check out (YYYY-MM-DD):</label>
+          <label>Check-out (YYYY-MM-DD):</label>
           <input
             type="date"
             name="checkOut"
@@ -230,17 +254,22 @@ const SearchHotelPage = () => {
           <ul className="hotel-results">
             {hotels.length > 0 ? (
               hotels.map((hotel, index) => (
-                <li key={index}>
+                <li key={index} className="hotel-card">
                   <a href={hotel.bookingUrl} target="_blank" rel="noopener noreferrer">
                     <h3>{hotel.title}</h3>
                   </a>
                   <p>Rating: {hotel.rating}</p>
                   <p>Price: {hotel.price}</p>
-                  <p>Location: {hotel.location}</p>
+                  <p>Location: {hotel.location || formData.city}</p>
+                  {isAuthenticated && (
+                    <a href="#!" onClick={() => handleSaveHotel(hotel)} className="save-hotel-button">
+                      Save Hotel
+                    </a>
+                  )}
                 </li>
               ))
             ) : (
-              <p>No hotels found</p>
+              <p className="center-text">No hotels found</p>
             )}
           </ul>
         )

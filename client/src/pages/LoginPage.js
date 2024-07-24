@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css'; // Import the CSS file
 
-const API_URL = 'http://localhost:3002';
+const API_URL = 'http://localhost:3001';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');

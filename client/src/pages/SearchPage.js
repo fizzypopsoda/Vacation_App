@@ -48,7 +48,7 @@ const SearchPage = () => {
   const handleSaveFlight = async (flight) => {
     if (isAuthenticated) {
       try {
-        const response = await fetch("http://localhost:3002/saveFlights", {
+        const response = await fetch("http://localhost:3001/saveFlights", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -86,7 +86,7 @@ const SearchPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3002/searchFlights", {
+      const response = await fetch("http://localhost:3001/searchFlights", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -142,7 +142,8 @@ const SearchPage = () => {
         </div>
       </header>
 
-      <h2>Please enter your travel information</h2>
+      <h2>
+Please enter information to search flights</h2>
       <form onSubmit={handleSubmit} className="form-container">
         <div>
           <label>Source Airport Code (ex.BOS):</label>

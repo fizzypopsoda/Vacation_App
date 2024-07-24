@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProfilePage.css';  // Import the CSS file
 
-const API_URL = 'http://localhost:3002';
+const API_URL = 'http://localhost:3001';
 
 const ProfilePage = () => {
     const [email, setEmail] = useState('');
     const [savedFlights, setSavedFlights] = useState([]);
+    const [savedHotels, setSavedHotels] = useState([]);  // New state for saved hotels
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -45,6 +46,19 @@ const ProfilePage = () => {
                             } else {
                                 throw new Error('Failed to fetch saved flights');
                             }
+
+                            // Fetch saved hotels
+                            const hotelsResponse = await fetch(`${API_URL}/savedHotels`, {
+                                method: 'GET',
+                                credentials: 'include',
+                            });
+
+                            if (hotelsResponse.ok) {
+                                const hotelsData = await hotelsResponse.json();
+                                setSavedHotels(hotelsData.hotels);
+                            } else {
+                                throw new Error('Failed to fetch saved hotels');
+                            }
                         } else {
                             throw new Error('Failed to fetch profile data');
                         }
@@ -65,7 +79,6 @@ const ProfilePage = () => {
         fetchProfile();
     }, [navigate]);
 
-
     const handleLogout = async () => {
         try {
             await fetch(`${API_URL}/logout`, {
@@ -76,7 +89,6 @@ const ProfilePage = () => {
                 credentials: 'include',
             });
 
-            // Clear session_id from localStorage
             localStorage.removeItem('session_id');
 
             // Redirect to the search page
@@ -85,7 +97,8 @@ const ProfilePage = () => {
             console.error('Logout failed:', error);
         }
     };
-    //Back to search page ('/')
+
+    // Back to search page ('/')
     const handleGoBack = () => {
         navigate('/');
     };
@@ -94,9 +107,9 @@ const ProfilePage = () => {
         <div className="profile-page">
             <button onClick={handleGoBack} className="btn btn-back">Go Back</button>
             <header>
-                <div className = "header-conten"t>
-                <h1>My Profile</h1>
-                    </div>
+                <div className="header-content">
+                    <h1>My Profile</h1>
+                </div>
             </header>
             <div className="profile-container">
                 {error ? (
@@ -106,30 +119,43 @@ const ProfilePage = () => {
                         <div className="profile-info">
                             <p><strong>Email:</strong> {email}</p>
                         </div>
-                        <p><strong>Saved flights:</strong></p>
-                        <div className="flight-cards">
-                            {savedFlights.map((flight, index) => (
-                                <div key={index} className="flight-card">
-                                    <p>Provider: {flight.providerId}</p>
-                                    <p className="price">Price: ${flight.totalPrice}</p>
-                                    <p>
-                                        {flight.totalPrice === 0 ? (
-                                             <a href={flight.url} target="_blank" rel="noopener noreferrer">
-                                                Please click book now for more details on price.
-                                            </a>
-
-                                        ) : (
-                                            <a href={flight.url} target="_blank" rel="noopener noreferrer">
-                                                Book now
-                                            </a>
-                                        )}
-                                    </p>
-                                </div>
-                            ))}
+                        <div className="saved-flights">
+                            <p><strong>Saved Flights:</strong></p>
+                            <div className="flight-cards">
+                                {savedFlights.map((flight, index) => (
+                                    <div key={index} className="flight-card">
+                                        <p>Provider: {flight.providerId}</p>
+                                        <p className="price">Price: ${flight.totalPrice}</p>
+                                        <p>
+                                            {flight.totalPrice === 0 ? (
+                                                <a href={flight.url} target="_blank" rel="noopener noreferrer">
+                                                    Please click book now for more details on price.
+                                                </a>
+                                            ) : (
+                                                <a href={flight.url} target="_blank" rel="noopener noreferrer">
+                                                    Book now
+                                                </a>
+                                            )}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
+                        <div className="saved-flights">
+                            <p><strong>Saved Hotels:</strong></p>
+                            <div className="flight-cards">
+                                {savedHotels.map((hotel, index) => (
+                                    <div key={index} className="flight-card">
+                                        <p>Provider: {hotel.title}</p>
+                                        <p>Rating: {hotel.rating}</p>
+                                        <p className = "price"> Price: {hotel.price}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <button onClick={handleLogout} className="btn btn-secondary">Logout</button>
                     </>
                 )}
-                <button onClick={handleLogout} className="btn btn-secondary">Logout</button>
             </div>
         </div>
     );
