@@ -122,7 +122,7 @@ const SearchHotelPage = () => {
       <header>
         <div className="header-content">
         <Link to="/flight">
-          <button className="btn btn-secondary">Search flights</button>
+          <button className="btn btn-secondary">Flights</button>
         </Link>
           {isAuthenticated && (
             <button className="btn btn-secondary" onClick={() => navigate('/profile')}>My Profile</button>

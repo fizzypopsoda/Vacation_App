@@ -30,10 +30,10 @@ const HomePage = () => {
       <h1 className="welcome-message">Welcome to your Vacation Finder!</h1>
       <div className="header-content-homepage">
         <Link to="/hotel">
-          <button className="btn btn-secondary">Search Hotels</button>
+          <button className="btn btn-secondary">Hotels</button>
         </Link>
         <Link to="/flight">
-          <button className="btn btn-secondary">Search Flights</button>
+          <button className="btn btn-secondary">Flights</button>
         </Link>
         {isAuthenticated && (
           <button
