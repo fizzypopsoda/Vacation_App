@@ -15,8 +15,10 @@ const SearchHotelPage = () => {
     rating: 0
   });
   const [error, setError] = useState("");
-  const [rawData, setHotels] = useState(null);
+  const [hotels, setHotels] = useState([]);
   const [geoId, setGeoId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [searched, setSearched] = useState(false); // New state to track if search has been conducted
 
   useEffect(() => {
     const fetchAuthStatus = async () => {
@@ -70,6 +72,7 @@ const SearchHotelPage = () => {
   const handleHotelSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setSearched(true); // Set searched to true when a search is performed
 
     // Checking if all fields are filled
     for (const key in formData) {
@@ -93,6 +96,7 @@ const SearchHotelPage = () => {
     };
 
     try {
+      setIsLoading(true);  // Start loading
       const response = await fetch("http://localhost:3002/searchHotels", {
         method: "POST",
         headers: {
@@ -112,6 +116,8 @@ const SearchHotelPage = () => {
     } catch (err) {
       console.error("Fetch Error:", err);
       setError("Error searching hotels");
+    } finally {
+      setIsLoading(false);  // Stop loading
     }
   };
 
@@ -121,9 +127,9 @@ const SearchHotelPage = () => {
     <div className="search-page">
       <header>
         <div className="header-content">
-        <Link to="/flight">
-          <button className="btn btn-secondary">Search flights</button>
-        </Link>
+          <Link to="/flight">
+            <button className="btn btn-secondary">Search flights</button>
+          </Link>
           {isAuthenticated && (
             <button className="btn btn-secondary" onClick={() => navigate('/profile')}>My Profile</button>
           )}
@@ -217,11 +223,28 @@ const SearchHotelPage = () => {
 
       {error && <p className="error">{error}</p>}
 
-      <ul className="hotel-results">
-        <h3>JSON Data:</h3>
-        <pre>{JSON.stringify(rawData, null, 2)}</pre>
-
-      </ul>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        searched && (
+          <ul className="hotel-results">
+            {hotels.length > 0 ? (
+              hotels.map((hotel, index) => (
+                <li key={index}>
+                  <a href={hotel.bookingUrl} target="_blank" rel="noopener noreferrer">
+                    <h3>{hotel.title}</h3>
+                  </a>
+                  <p>Rating: {hotel.rating}</p>
+                  <p>Price: {hotel.price}</p>
+                  <p>Location: {hotel.location}</p>
+                </li>
+              ))
+            ) : (
+              <p>No hotels found</p>
+            )}
+          </ul>
+        )
+      )}
     </div>
   );
 };
